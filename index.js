@@ -9,13 +9,11 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: "*",
+        origin: `${process.env.FRONTEND_URL}`,
     })
 );
 
 const port =process.env.PORT || 8000;
-
-
 app.use([authRoutes])
 app.use("/api/v1", taskRoutes);  // Use task routes
 
