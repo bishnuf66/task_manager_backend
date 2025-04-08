@@ -103,3 +103,5 @@ All API endpoints handle errors gracefully and provide meaningful error messages
 The backend of TaskMaster handles all task-related operations, including authentication, task creation, viewing, and deletion. It uses Prisma to interact with MySQL, and it ensures that only authorized users can manage their tasks. After setting up the backend, it will work seamlessly with the frontend, providing a secure and efficient way to manage tasks.
 
 ---
+
+.env is included for easy setup and reference
