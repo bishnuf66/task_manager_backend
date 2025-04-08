@@ -1,10 +1,11 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const prisma = new PrismaClient();
 const saltRounds = 10;
 
+
+// User Register
 module.exports.Register = (registerData) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -41,6 +42,8 @@ module.exports.Register = (registerData) => {
     });
 };
 
+
+//User Login
 module.exports.Login = (loginData) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -70,7 +73,6 @@ module.exports.Login = (loginData) => {
             resolve({
                 message: "Login successful",
                 token: token,
-                data: { email: user.email },
                 success: true,
             });
 

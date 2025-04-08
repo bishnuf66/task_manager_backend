@@ -1,95 +1,105 @@
-# Task Manager App
+# TaskMaster - Backend
 
-## Description
+## Overview
 
-The **Task Manager App** is a simple, full-stack task management application. It allows users to create, update, delete, and manage tasks with options to filter them by priority and status. The app is built with a **React** frontend and a **Node.js/Express** backend, using **TypeScript** for both.
+The backend of TaskMaster is built with **Node.js** and **Express**, using **Prisma ORM** to interact with a **MySQL** database. The backend provides RESTful APIs for managing tasks, including task creation, viewing, and deletion. It also includes user authentication, ensuring that only authorized users can manage their own tasks.
 
-## Frontend
+## Tech Stack
 
-The frontend of the Task Manager App is built with **React** (or **Next.js**) and **TypeScript**. It is styled with **Tailwind CSS** for a responsive design. Axios is used for API requests, and notifications are handled via **React Hot Toast**. The frontend allows users to manage tasks by creating new ones, updating existing tasks, and deleting tasks. It also provides filters for task status and priority.
+- **Backend Framework**: Node.js with Express
+- **Database**: MySQL
+- **ORM**: Prisma
+- **Authentication**: jwt authentication
 
-### Frontend Setup
+## Backend Setup Instructions
 
-1. Clone the repository:
+### Prerequisites
 
-   ```bash
-   git clone https://github.com/your-username/task-manager-app-frontend.git
-   cd task-manager-app-frontend
-   ```
+Before setting up the backend, make sure you have the following tools installed:
 
-2. Install dependencies:
+- [Node.js](https://nodejs.org/)
+- [MySQL](https://www.mysql.com/) or a compatible database service
+- [Prisma](https://www.prisma.io/docs/getting-started) for ORM management
 
-   ```bash
-   npm install
-   ```
+### Steps to Run the Backend Locally
 
-3. Start the development server:
+1. **Clone the repository:**
 
-   ```bash
-   npm run dev
-   ```
-
-   The frontend should now be running at `http://localhost:3000`.
-
-## Backend
-
-The backend is built using **Node.js** with the **Express** framework and **TypeScript**. It uses **PostgreSQL** or **MongoDB** (depending on your choice) for the database and manages tasks with a set of RESTful APIs. The backend provides endpoints to create, update, delete, and fetch tasks, along with authentication (optional) and authorization features.
-
-### Backend Setup
-
-1. Clone the repository:
+   Clone the repository if you haven't already:
 
    ```bash
-   git clone https://github.com/your-username/task-manager-app-backend.git
-   cd task-manager-app-backend
+   git clone https://github.com/bishnuf66/task_manager_backend.git
+   cd task_manager_backend
    ```
 
-2. Install dependencies:
+2. **Install dependencies:**
+
+   Install the required packages:
 
    ```bash
    npm install
    ```
 
-3. Create a `.env` file in the root directory and add the necessary environment variables:
+3. **Set up the database:**
+
+   Make sure your MySQL server is running. Then, set up the database by running Prisma migrations:
 
    ```bash
-   DB_URL=your-database-connection-string
-   PORT=5000
-   JWT_SECRET=your-jwt-secret
+   npx prisma migrate dev --name init
    ```
 
-4. Run the migration (if using a SQL database) or set up your MongoDB database (if using MongoDB):
+   This will create the necessary tables and schema in your database.
 
-   - For PostgreSQL (using Prisma):
-     ```bash
-     npx prisma migrate dev
-     ```
-   - For MongoDB (using Mongoose), just ensure your database is connected via the connection string in `.env`.
+4. **Configure environment variables:**
 
-5. Start the server:
+   Create a `.env` file in the root of the backend directory and add the following environment variables:
+
+   ```env
+    PORT=8000
+    frontend_url=http://localhost:5173
+    SECRET_KEY=taskmanager
+   DATABASE_URL=mysql://user:password@localhost:3306/taskmaster
+   ```
+
+   Replace `user`, `password`, `localhost:3306`,`frontend_url` and `port` acccording to you setup.
+
+5. **Start the backend server:**
+
+   Start the backend server with the following command:
 
    ```bash
    npm run dev
    ```
 
-   The backend should now be running at `http://localhost:5000`.
+   The backend will run locally at `http://localhost:8000`.
 
-## Usage
+---
 
-1. **Frontend**:
-   - Access the task manager app on `http://localhost:3000`.
-   - You can create new tasks, mark tasks as completed, and delete tasks.
-   - Use the search and filters to manage tasks effectively.
-2. **Backend**:
-   - The backend exposes RESTful API endpoints for managing tasks.
-   - The available endpoints are:
-     - `GET /tasks`: Fetch all tasks.
-     - `POST /tasks`: Create a new task.
-     - `PUT /tasks/:id`: Update an existing task.
-     - `DELETE /tasks/:id`: Delete a task.
+## API Endpoints
 
-## Technologies Used
+### Task Management
 
-- **Frontend**: React, TypeScript, Tailwind CSS, Axios, React Hot Toast
-- **Backend**: Node.js, Express, TypeScript, JWT Authentication (optional), PostgreSQL/MongoDB, Prisma/Mongoose
-- **Development Tools**: npm, dotenv
+- **GET /tasks**: Fetch all tasks for the authenticated user.
+- **POST /tasks**: Create a new task for the authenticated user.
+- **PUT /tasks/:id**: Update a task for the authenticated user.
+- **DELETE /tasks/:id**: Delete a specific task by ID, ensuring the task belongs to the authenticated user.
+
+### Authentication
+
+- **POST /auth/login**: Login with email to authenticate the user and generate a jsonwebtoken.
+
+### Error Handling
+
+All API endpoints handle errors gracefully and provide meaningful error messages, such as:
+
+- **Unauthorized**: If the user tries to access tasks that do not belong to them.
+- **Not Found**: If a task does not exist.
+- **Server Errors**: If there’s an issue with the server or database interaction.
+
+---
+
+## Conclusion
+
+The backend of TaskMaster handles all task-related operations, including authentication, task creation, viewing, and deletion. It uses Prisma to interact with MySQL, and it ensures that only authorized users can manage their tasks. After setting up the backend, it will work seamlessly with the frontend, providing a secure and efficient way to manage tasks.
+
+---

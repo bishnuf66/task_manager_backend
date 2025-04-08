@@ -3,9 +3,11 @@ const { createTask, getAllTasks, getTaskById, updateTask, deleteTask } = require
 
 module.exports.createTask = async (req, res) => {
     try {
-        // Validate task creation data
         await validateCreateTask(req.body);
-        const result = await createTask(req.body);
+
+        const taskData = { ...req.body, userEmail: req.email }; 
+
+        const result = await createTask(taskData);
         if (result) {
             return res.status(201).json(result);
         }
@@ -20,9 +22,11 @@ module.exports.createTask = async (req, res) => {
 
 module.exports.updateTask = async (req, res) => {
     try {
-        // Validate task update data
         await validateUpdateTask(req.body);
-        const result = await updateTask(req.params.id, req.body);
+
+        const taskData = { ...req.body, userEmail: req.email };
+
+        const result = await updateTask(req.params.id, taskData);
         if (result) {
             return res.status(200).json(result);
         }
@@ -37,7 +41,7 @@ module.exports.updateTask = async (req, res) => {
 
 module.exports.getAllTasks = async (req, res) => {
     try {
-        const result = await getAllTasks();
+        const result = await getAllTasks(req.email); 
         return res.status(200).json(result);
     } catch (err) {
         console.error("Error fetching tasks:", err);
@@ -48,24 +52,10 @@ module.exports.getAllTasks = async (req, res) => {
     }
 };
 
-module.exports.getTaskById = async (req, res) => {
-    try {
-        const result = await getTaskById(req.params.id);
-        if (result) {
-            return res.status(200).json(result);
-        }
-    } catch (err) {
-        console.error("Error fetching task:", err);
-        return res.status(400).json({
-            message: err.message || "Task not found",
-            success: false
-        });
-    }
-};
 
 module.exports.deleteTask = async (req, res) => {
     try {
-        const result = await deleteTask(req.params.id);
+        const result = await deleteTask(req.params.id, req.email); 
         if (result) {
             return res.status(200).json(result);
         }

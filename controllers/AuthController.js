@@ -11,7 +11,7 @@ module.exports.Login = async (req, res) => {
             return res.status(200).json(result);
         }
     } catch (err) {
-        console.error("Error during login:", err); // Log the error
+        console.error("Error during login:", err); 
         return res.status(400).json({
             message: err.message || "Validation or login failed",
             success: false
@@ -25,13 +25,12 @@ module.exports.Register = async (req, res) => {
         const validatedData = await validateRegister(req.body);
         console.log("Validated Data:", validatedData);
 
-        // Proceed with registration if validation passes
         const result = await Register(req.body, res);
         if (result) {
             return res.status(200).json(result);
         }
     } catch (err) {
-        console.error("Error during registration:", err); // Log the error
+        console.error("Error during registration:", err); 
         return res.status(400).json({
             message: err.message || "Validation or registration failed",
             success: false

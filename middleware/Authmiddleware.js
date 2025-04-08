@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-
 function getToken(req) {
     if (
         req.headers.authorization &&
@@ -21,20 +20,22 @@ const user = (req, res, next) => {
         });
     }
 
-    // verfiying for token
-    jwt.verify(token, process.env.SECRET_KEY ?? '', async function (err, user) {
+    // Verifying the token
+    jwt.verify(token, process.env.SECRET_KEY ?? '', async function (err, decoded) {
         if (err) {
-            console.log(err)
+            console.log(err);
             return res.status(403).json({
                 message: "Invalid Token",
                 success: false,
             });
         } else {
-
-            req.email = user.email
+            // Setting the user details from the decoded token
+            req.id = decoded.id;
+            req.email = decoded.email;
+            req.name = decoded.userName;
             next();
         }
     });
 };
 
-module.exports = { user }
+module.exports = { user };
