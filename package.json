@@ -4,7 +4,7 @@
   "description": "Task Manager(nodejs)",
   "main": "index.js",
   "scripts": {
-    "migrate": "prisma migrate deploy",
+    "migrate": "prisma migrate dev",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
